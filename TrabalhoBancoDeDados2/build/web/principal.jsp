@@ -18,7 +18,11 @@
             <h3 class="page-header">Projeto de aplicativo de Banco de Dados</h3>
             <h4 class="page-header">Grupo : Rhuan Barros Rafael Queiroz</h4>
             
-            <a href="/TrabalhoBancoDeDados2/Programa">Inicializar aplicação</a>
+            <a href="/TrabalhoBancoDeDados2/CriaArquivoDadosDiscoParaApresentacao">Inicializa aplicação com dados iniciais no banco de dados.</a>
+            <br>
+            <a href="/TrabalhoBancoDeDados2/Programa">Interface de manipulação de dados</a>
+            <br>
+            <a href="/TrabalhoBancoDeDados2/RecuperarFalha">Realizar recuperação de falhas Undo e Redo</a>
             
         </div>
 

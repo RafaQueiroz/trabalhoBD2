@@ -55,7 +55,7 @@
 
                 <form action="FinalizarTransacao">
                     <label>
-                        <select>
+                        <select name="commitId">
                             <%
                                 for (int i = 0; i < totalTransacoes; i++) {
                             %>
@@ -69,10 +69,11 @@
                 <form action="Checkpoint">
                     <input type="submit" value="Checkpoint"> 
                 </form>
-
+                        
                 <form action="RecuperarFalha">
-                    <input type="submit" value="Recuperar Falha"> 
+                    <input type="submit" value="Interface de recuperação de falhas"> 
                 </form>
+
             </div>
         </div>
 

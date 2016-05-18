@@ -5,11 +5,13 @@
  */
 package Log;
 
+import java.io.Serializable;
+
 /**
  *
  * @author rhuanbarros
  */
-public class StartTransaction extends TipoLog {
+public class StartTransaction extends TipoLog implements Serializable {
     public int idTransacao;
     public int getIdTransacao() {
         return idTransacao;

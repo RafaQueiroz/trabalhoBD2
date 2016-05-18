@@ -5,11 +5,13 @@
  */
 package Log;
 
+import java.io.Serializable;
+
 /**
  *
  * @author rhuanbarros
  */
-public abstract class TipoLog {
+public abstract class TipoLog implements Serializable {
     public Tipo tipo;
 
     @Override

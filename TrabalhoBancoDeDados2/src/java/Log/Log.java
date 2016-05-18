@@ -20,8 +20,9 @@ import java.util.List;
  */
 public class Log {
 
-    static List<TipoLog> logBuffer = new ArrayList<>();
-    static List<TipoLog> logDisco = new ArrayList<>();
+    public static List<TipoLog> logBuffer = new ArrayList<>();
+    public static List<TipoLog> logDisco = new ArrayList<>();
+    static final String FOLDER = "c:\\temp\\";
     
     private static int totalTransacoes = 0;
     
@@ -53,38 +54,48 @@ public class Log {
     }
 
     public static void commit(int idTransacao) {
-        logBuffer.add(new Commit());
+        logBuffer.add(new Commit(idTransacao));
+        System.out.println("Commit adicionado no LogBuffer");
+        //logDisco.addAll(logBuffer);
+        //logBuffer.clear();
+        logWriter();
     }
-
-    public static void checkPoint() {
+    
+    public static void checkpoint() {
         logBuffer.add(new CheckPoint());
     }
 
     /* Este método deve deve fazer um append do LogBuffer ao Log que ta no disco,
         e não sobrescreve o que há la. Por isso eu abro o arquivo antes.
     */
-    
     public static void logWriter() {
         
+        //logDisco.addAll( logBuffer );
+        //logBuffer.clear();
+        
         try {
-            
+            //abre o arquivo de log q ta no disco e bota no aux
             System.out.println("Começou a executar logWriter");
-            FileInputStream arquivo = new FileInputStream("c:\\temp\\LogDisco.rplb");
+            FileInputStream arquivo = new FileInputStream(FOLDER+"LogDisco.rplb");
             ObjectInputStream in = new ObjectInputStream(arquivo);
             List<TipoLog> aux = (List<TipoLog>) in.readObject();
             in.close();
             arquivo.close();
             System.out.println("Aberto de arquivo com sucesso!");
 
+            //insere no aux o q ta no buffer
             aux.addAll(logBuffer);
             
-            FileOutputStream arquivo2 = new FileOutputStream("c:\\temp\\LogDisco.rplb");
+            FileOutputStream arquivo2 = new FileOutputStream(FOLDER+"LogDisco.rplb");
             ObjectOutputStream out = new ObjectOutputStream(arquivo2);
+            
+            //grava o aux no disco substituindo o q tava la
             out.writeObject( aux );
             out.close();
             arquivo2.close();
             
             System.out.println("Salvo para arquivo com sucesso!");
+            
             
             logBuffer.clear(); //limpa logBuffer
             logDisco.clear();
@@ -104,7 +115,7 @@ public class Log {
     public static void inicializaArquivoNoDisco() {
         try {
             System.out.println("Começou a executar logWriter");
-            FileOutputStream arquivo = new FileOutputStream("c:\\temp\\LogDisco.rplb");
+            FileOutputStream arquivo = new FileOutputStream(FOLDER+"LogDisco.rplb");
             ObjectOutputStream out = new ObjectOutputStream(arquivo);
             List<TipoLog> aux = new ArrayList<>();
             out.writeObject( aux );

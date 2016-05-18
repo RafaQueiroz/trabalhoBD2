@@ -5,11 +5,13 @@
  */
 package Log;
 
+import java.io.Serializable;
+
 /**
  *
  * @author rhuanbarros
  */
-public class CheckPoint extends TipoLog {
+public class CheckPoint extends TipoLog implements Serializable {
 
     @Override
     public String toString() {

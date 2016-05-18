@@ -38,9 +38,14 @@ public class Index extends HttpServlet {
         System.out.println("Sistema.Index.processRequest()");
         response.setContentType("text/html;charset=UTF-8");
         
+        //criar o arquivo inicial que fica no disco
+        //para que tenha algum dado no DadosDisco pra professora poder testar os updates
+        
+        //Dados.criaArquivoDadosDiscoParaApresentacao();
+        
         //abre os dados
-        Dados.dbLoaderParaVerDisco();
-        Dados.dbLoaderParaProBuffer();
+        //Dados.dbLoaderParaVerDisco();
+        //Dados.dbLoaderParaProBuffer();
         
         RequestDispatcher rd = request.getRequestDispatcher("principal.jsp");
         rd.forward(request, response);

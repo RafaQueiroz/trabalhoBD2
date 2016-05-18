@@ -37,6 +37,7 @@ public class Programa extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("ENTROU NNO SERVLET PROGRAMA!!!!!!!! <<-------------------------------");
         response.setContentType("text/html;charset=UTF-8");
         
         int totalDadosDisco = Dados.getTotalDadosDisco();
@@ -47,8 +48,9 @@ public class Programa extends HttpServlet {
         String aux2 = Integer.toString(totalTransacoes);
         request.setAttribute("totalTransacoes", aux2);
                 
+        
+        
         //abre os Logs
-        Log.inicializaArquivoNoDisco(); //pra não dar pau por tentar abrir arquivo q nao existe
         List<TipoLog> logBuffer = Log.getLogBuffer();
         request.setAttribute("logBuffer", logBuffer);
         List<TipoLog> logDisco = Log.getLogDisco();

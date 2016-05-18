@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Sistema;
 
 import Dados.Dados;
+import Log.Log;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -35,7 +31,19 @@ public class CriaArquivoDadosDiscoParaApresentacao extends HttpServlet {
         //executar essa servlet somente para criar o arquivo inicial que fica no disco
         //para que tenha algum dado no DadosDisco pra professora poder testar os updates
         
+        //pra não dar pau por tentar abrir arquivo q nao existe
+        //ele cria um arquivo de log vazio.
+        Log.inicializaArquivoNoDisco();
+        
+        //dados falsos
         Dados.criaArquivoDadosDiscoParaApresentacao();
+        
+        //abre os dados
+        Dados.dbLoaderParaVerDisco();
+        Dados.dbLoaderParaProBuffer();
+        
+        response.sendRedirect("/TrabalhoBancoDeDados2/Programa");
+        return;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

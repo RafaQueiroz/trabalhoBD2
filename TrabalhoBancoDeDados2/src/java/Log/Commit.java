@@ -5,25 +5,22 @@
  */
 package Log;
 
+import java.io.Serializable;
+
 /**
  *
  * @author rhuanbarros
  */
-public class Commit extends TipoLog {
+public class Commit extends TipoLog implements Serializable {
     public int idTransacao;
     public int getIdTransacao() {
         return idTransacao;
     }
 
-    public Commit() {
+    public Commit(int idTransacao) {
         super(Tipo.Commit);
-        this.idTransacao = getIdProximo();
+        this.idTransacao = idTransacao;        
     }
-
-    private static int idProximo=0;
-    private static int getIdProximo() {
-        return idProximo++;
-    }  
 
     @Override
     public String toString() {

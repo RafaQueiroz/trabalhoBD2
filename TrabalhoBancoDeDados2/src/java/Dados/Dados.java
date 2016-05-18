@@ -21,8 +21,9 @@ import java.util.List;
  */
 public class Dados {
 
-    static List<Produto> dadosBuffer = new ArrayList<>();
-    static List<Produto> dadosDisco = new ArrayList<>();
+    static public List<Produto> dadosBuffer = new ArrayList<>();
+    static public List<Produto> dadosDisco = new ArrayList<>();
+    static final String FOLDER = "c:\\temp\\";
     
     public static void update(int idLinha, String ai) {
         Iterator<Produto> iteratorExame = Dados.dadosBuffer.iterator();
@@ -39,7 +40,7 @@ public class Dados {
     public static void dbLoaderParaProBuffer() {
         try {
             System.out.println("Começou a abrir -> dbLoaderParaVerDisco");
-            FileInputStream arquivo = new FileInputStream("c:\\temp\\DadosDisco.rplb");
+            FileInputStream arquivo = new FileInputStream(FOLDER+"DadosDisco.rplb");
             ObjectInputStream in = new ObjectInputStream(arquivo);
             dadosBuffer = (List<Produto>) in.readObject();
             in.close();
@@ -58,7 +59,7 @@ public class Dados {
     public static void dbLoaderParaVerDisco() {
         try {
             System.out.println("Começou a abrir -> dbLoaderParaVerDisco");
-            FileInputStream arquivo = new FileInputStream("c:\\temp\\DadosDisco.rplb");
+            FileInputStream arquivo = new FileInputStream(FOLDER+"DadosDisco.rplb");
             ObjectInputStream in = new ObjectInputStream(arquivo);
             dadosDisco = (List<Produto>) in.readObject();
             in.close();
@@ -81,7 +82,7 @@ public class Dados {
     public static void criaArquivoDadosDiscoParaApresentacao() {
         try {
             System.out.println("Começou a salvar");
-            FileOutputStream arquivo = new FileOutputStream("c:\\temp\\DadosDisco.rplb");
+            FileOutputStream arquivo = new FileOutputStream(FOLDER+"DadosDisco.rplb");
             ObjectOutputStream out = new ObjectOutputStream(arquivo);
 
             List<Produto> aux = new ArrayList<>();
@@ -103,6 +104,7 @@ public class Dados {
     public static void addProduto(Produto produto) {
         dadosBuffer.add(produto);
     }
+ 
 
     public static List<Produto> getDadosBuffer() {
         return dadosBuffer;
@@ -112,6 +114,14 @@ public class Dados {
         return dadosDisco;
     }
 
+    public static void setDadosBuffer(List<Produto> dadosBuffer) {
+        Dados.dadosBuffer = dadosBuffer;
+    }
+
+    public static void setDadosDisco(List<Produto> dadosDisco) {
+        Dados.dadosDisco = dadosDisco;
+    }
+    
     public static String getNomeProdutoById(int id) {
         Iterator<Produto> iteratorExame = Dados.dadosDisco.iterator();
         Produto p = null;
@@ -122,6 +132,25 @@ public class Dados {
             }
         }
         return p.getNome();
+    }
+    
+    public static void checkpoint() {
+        dadosDisco.clear();
+        dadosDisco.addAll(Dados.dadosBuffer);
+        
+        try {
+            System.out.println("Começou a salvar");
+            FileOutputStream arquivo = new FileOutputStream(FOLDER+"DadosDisco.rplb");
+            ObjectOutputStream out = new ObjectOutputStream(arquivo);
+
+            out.writeObject(dadosDisco);
+
+            out.close();
+            arquivo.close();
+            System.out.println("Salvo para arquivo com sucesso!");
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
     }
 
 }
