@@ -23,7 +23,7 @@ public class Dados {
 
     static public List<Produto> dadosBuffer = new ArrayList<>();
     static public List<Produto> dadosDisco = new ArrayList<>();
-    static final String FOLDER = "c:\\temp\\";
+    static final String FOLDER = "/tmp/";
     
     public static void update(int idLinha, String ai) {
         Iterator<Produto> iteratorExame = Dados.dadosBuffer.iterator();

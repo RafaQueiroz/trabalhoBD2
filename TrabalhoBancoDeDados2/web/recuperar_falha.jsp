@@ -117,6 +117,11 @@
                     </table>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6">
+                   <a href="Sistema.Index"><button>Voltar</button></a>
+                </div>
+            </div>
 
         </div>
 

@@ -22,7 +22,7 @@ public class Log {
 
     public static List<TipoLog> logBuffer = new ArrayList<>();
     public static List<TipoLog> logDisco = new ArrayList<>();
-    static final String FOLDER = "c:\\temp\\";
+    static final String FOLDER = "/tmp/";
     
     private static int totalTransacoes = 0;
     

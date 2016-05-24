@@ -8,8 +8,10 @@ package Sistema;
 import Log.*;
 import Models.Produto;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.List;
  */
 public class SistemaDeRecuperacaoDeFalhas {
 
-    static final String FOLDER = "c:\\temp\\";
+    static final String FOLDER = "/tmp/";
 
     private List<Integer> UNDO = new ArrayList<>();
     private List<Integer> REDO = new ArrayList<>();
@@ -53,6 +55,7 @@ public class SistemaDeRecuperacaoDeFalhas {
             final boolean logTipoStartTransaction = logDisco.get(i).getTipo() == TipoLog.Tipo.StartTransaction;
             final boolean logTipoCheckpoint = logDisco.get(i).getTipo() == TipoLog.Tipo.CheckPoint;
             
+            
             if( logTipoCheckpoint ) {
                 teveCheckpoint = true;
             } else if ( logTipoCommit ) {
@@ -76,12 +79,68 @@ public class SistemaDeRecuperacaoDeFalhas {
                         UNDO.add(idTransacao);
                 }
             }
-            mostraUNDO();
+            
         }
-
         
+//        desfaz as operações
+        for (int j = UNDO.size() - 1; j >= 0 ; j--){
+            System.out.println("interando");
+            for(int i= 0; i<= logDisco.size()-1;i++) {
+                System.out.println("interando 2");
+                final boolean logTipoUpdate = logDisco.get(i).getTipo() == TipoLog.Tipo.Update;
+                
+                if(logTipoUpdate){
+                    System.out.println("Achou onde atualizar");
+
+                    Update update = (Update) logDisco.get(i);
+                    
+                    if(update.getIdTransacao() == UNDO.get(j)){
+                        System.out.println("Id: "+ update.getIdLinha());
+                        System.out.println("interando "+ update.getBi());
+                        
+                        updateRecuperacao(update.getIdLinha(), update.getBi());
+                    }
+                }
+            }
+        }
+//        refaz as operações
+        for(int j= 0; j <= REDO.size() - 1; j++){
+            for(int i=0; i<=logDisco.size()-1; i++ ){
+                System.out.println("interando 2");
+                final boolean logTipoUpdate = logDisco.get(i).getTipo() == TipoLog.Tipo.Update;
+                
+                if(logTipoUpdate){
+                    System.out.println("Achou onde atualizar");
+
+                    Update update = (Update) logDisco.get(i);
+                    
+                    if(update.getIdTransacao() == REDO.get(j)){
+                        System.out.println("Id: "+ update.getIdLinha());
+                        System.out.println("interando "+ update.getBi());
+                        
+                        updateRecuperacao(update.getIdLinha(), update.getAi());
+                        logWriter();
+                        dataWriter();
+                    }
+                }
+            }
+        }      
 
     }
+    
+    public void updateRecuperacao(int idLinha, String ai) {
+        Iterator<Produto> iteratorExame = dadosDisco.iterator();
+        Produto p = null;
+        while (iteratorExame.hasNext()) {
+            p = iteratorExame.next();
+            if (p.getId() == idLinha) {
+                System.out.println("Valor Log:"+p.getId());
+                break;
+            }
+        }
+        p.setNome(ai);
+    }
+
     
     private void mostraUNDO() {
         Iterator<Integer> iteratorInteger = UNDO.iterator();
@@ -168,6 +227,41 @@ public class SistemaDeRecuperacaoDeFalhas {
             c.printStackTrace();
             return;
         }
+    }
+    
+    public void logWriter() {
+        
+        try {
+            
+            FileOutputStream arquivo2 = new FileOutputStream(FOLDER+"LogDisco.rplb");
+            ObjectOutputStream out = new ObjectOutputStream(arquivo2);
+            
+            //grava o aux no disco substituindo o q tava la
+            out.writeObject(logDisco);
+            out.close();
+            arquivo2.close();
+            
+            System.out.println("Salvo para arquivo com sucesso!");
+         
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }    
+    public void dataWriter() {
+
+        try {
+            FileOutputStream arquivo2 = new FileOutputStream(FOLDER+"LogDisco.rplb");
+            ObjectOutputStream out = new ObjectOutputStream(arquivo2);
+
+            //grava o aux no disco substituindo o q tava la
+            out.writeObject(dadosDisco);
+            out.close();
+            arquivo2.close();
+
+            System.out.println("Salvo para arquivo com sucesso!");
+        } catch (IOException i) {
+            i.printStackTrace();
+        }   
     }
 
 }

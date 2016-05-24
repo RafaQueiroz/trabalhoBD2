@@ -30,6 +30,63 @@ public class Update extends TipoLog implements Serializable {
         this.ai = ai;
     }
 
+    public int getIdTransacao() {
+        return idTransacao;
+    }
+
+    public String getTabela() {
+        return tabela;
+    }
+
+    public int getIdLinha() {
+        return idLinha;
+    }
+
+    public String getAtributo() {
+        return atributo;
+    }
+
+    public String getBi() {
+        return bi;
+    }
+
+    public String getAi() {
+        return ai;
+    }
+
+    public Tipo getTipo() {
+        return tipo;
+    }
+
+    public void setIdTransacao(int idTransacao) {
+        this.idTransacao = idTransacao;
+    }
+
+    public void setTabela(String tabela) {
+        this.tabela = tabela;
+    }
+
+    public void setIdLinha(int idLinha) {
+        this.idLinha = idLinha;
+    }
+
+    public void setAtributo(String atributo) {
+        this.atributo = atributo;
+    }
+
+    public void setBi(String bi) {
+        this.bi = bi;
+    }
+
+    public void setAi(String ai) {
+        this.ai = ai;
+    }
+
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
+    
+
     @Override
     public String toString() {
         return "[Update "+"idTransacao="+idTransacao+", tabela="+tabela+", idLinha="+idLinha+", atributo="+atributo+", bi="+bi+", ai="+ai+']';

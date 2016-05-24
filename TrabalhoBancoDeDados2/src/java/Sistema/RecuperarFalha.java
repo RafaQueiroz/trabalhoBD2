@@ -53,6 +53,9 @@ public class RecuperarFalha extends HttpServlet {
         List<Produto> dadosDisco = f.getDadosDisco();
         request.setAttribute("dadosDisco", dadosDisco);
         
+       
+        
+        
         RequestDispatcher rd = request.getRequestDispatcher("recuperar_falha.jsp");
         rd.forward(request, response);
     }
